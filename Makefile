@@ -5,11 +5,12 @@ LIBS := -lgmp -lgmpxx
 EXECUTABLE := schemecpp
 
 .PHONY: $(EXECUTABLE)
-main: 
+$(EXECUTABLE): 
 	cd src && $(MAKE)
-	$(CC) -Wall $(LIBS) obj/*.o obj/scriptlib/*.o -o main
+	$(CC) -Wall $(LIBS) obj/*.o obj/scriptlib/*.o -o $(EXECUTABLE)
 
 .PHONY: clean
 clean: 
 	rm -f obj/*.o
 	rm -f $(EXECUTABLE)
+	cd src && $(MAKE) clean

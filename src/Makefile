@@ -1,7 +1,9 @@
 CC := g++
 CFLAGS = -Wall -c
 SOURCES := $(wildcard *.cpp)
+HEADERS := $(wildcard $(INCL_HOME)/*.h)
 OBJECTS := $(SOURCES:.cpp=.o) lex.yy.o y.tab.o
+INCLUDES := -I$(INCL_HOME)
 
 main:  y.tab.c lex.yy.c $(OBJECTS)
 	cd scriptlib && $(MAKE)
@@ -13,15 +15,14 @@ lex.yy.c: scanner.l
 y.tab.c: parser.y
 	bison -dvty parser.y
 
-%.o: %.cpp
-	g++ $(CFLAGS) $< -o $(OBJ_HOME)/$@
+%.o: %.cpp $(HEADERS)
+	g++ $(CFLAGS) $(INCLUDES) $< -o $(OBJ_HOME)/$@
 
-%.o: %.c
-	g++ $(CFLAGS) $< -o $(OBJ_HOME)/$@
+%.o: %.c $(HEADERS)
+	g++ $(CFLAGS) $(INCLUDES) $< -o $(OBJ_HOME)/$@
 
 .PHONY: clean
 clean:
-	rm lex.yy.c
-	rm y.tab.h
-	rm y.tab.c
-	rm *.o
+	rm -f lex.yy.c
+	rm -f y.tab.h
+	rm -f y.tab.c
