@@ -1,5 +1,5 @@
 CC := g++
-CFLAGS = -Wall -c
+CFLAGS = -Wall -c -g
 SOURCES := $(wildcard *.cpp)
 HEADERS := $(wildcard $(INCL_HOME)/*.h)
 OBJECTS := $(SOURCES:.cpp=.o) lex.yy.o y.tab.o

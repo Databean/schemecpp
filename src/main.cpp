@@ -13,10 +13,10 @@ using namespace pscheme;
 
 Pair* root;
 
-int main(int i,char** args) {
+int main(int argc,char** args) {
 	std::string filename;
-	if(!args) {
-		filename = args[0];
+	if(argc > 1) {
+		filename = args[1];
 	} else {
 		std::cout << ">>parsing test.scm, no filename given" << std::endl;
 		filename = "test.scm";
@@ -24,7 +24,7 @@ int main(int i,char** args) {
 	
 	std::cout << ">>this is the file" << std::endl;
 	
-	std::fstream file("test.scm", std::fstream::in);
+	std::fstream file(filename.c_str(), std::fstream::in);
 	std::stringbuf text;
 	file >> &text;
 	file.close();
