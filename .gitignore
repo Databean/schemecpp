@@ -1,0 +1,7 @@
+schemecpp
+obj/*.o
+obj/scriptlib/*.o
+src/lex.yy.c
+src/y.tab.h
+src/y.tab.c
+src/y.output
