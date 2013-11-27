@@ -73,3 +73,29 @@ public:
 	}
 };
 run(getRootScope()->defineValue("define",new DefineFunction());)
+
+class SetFunction : public Macro {
+public:
+	SetFunction() {}
+	virtual ~SetFunction() {}
+	virtual Object* call(Object* _params, Scope* s) {
+		if(_params->getType()!=TYPE_PAIR) {
+			throw "lambda requires arguments";
+		}
+		Pair* params = reinterpret_cast<Pair*>(_params);
+		if(params->getLeft()->getType()!=TYPE_IDENTIFIER) {
+			throw "error: set! first parameter should be an identifier";
+		}
+		Identifier* id = reinterpret_cast<Identifier*>(params->getLeft());
+		if(params->getRight()->getType()!=TYPE_PAIR) {
+			throw "error: set! needs more than one parameter";
+		}
+		Pair* right = reinterpret_cast<Pair*>(params->getRight());
+		if(right->getRight()->getType()!=TYPE_EMPTY_LIST) {
+			throw "set! received too many parameters";
+		}
+		s->setValue(id->getName(),right->getLeft()->evaluate(s));
+		return new Void();
+	}
+};
+run(getRootScope()->defineValue("set!",new SetFunction());)
