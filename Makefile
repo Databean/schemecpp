@@ -3,9 +3,9 @@ export OBJ_HOME := $(realpath obj)
 export INCL_HOME := $(realpath include)
 LIBS := -lgmp -lgmpxx
 EXECUTABLE := schemecpp
+ALLCODE := $(shell find . -type f | grep -e "\(\.h\)\|\(\.cpp\)\|\(\.y\)\|\(\.l\)")
 
-.PHONY: $(EXECUTABLE)
-$(EXECUTABLE): 
+$(EXECUTABLE): $(ALLCODE)
 	cd src && $(MAKE)
 	$(CXX) -Wall $(LIBS) obj/*.o obj/scriptlib/*.o -o $(EXECUTABLE)
 
