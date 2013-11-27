@@ -1,4 +1,4 @@
-CC := g++
+CXX := g++
 CFLAGS = -Wall -c -g
 SOURCES := $(wildcard *.cpp)
 HEADERS := $(wildcard $(INCL_HOME)/scriptlib/*.h)
@@ -8,7 +8,7 @@ INCLUDES := -I$(INCL_HOME) -I$(INCL_HOME)/scriptlib
 main:  $(OBJECTS)
 	
 %.o: %.cpp
-	g++ $(CFLAGS) $(INCLUDES) $< -o $(OBJ_HOME)/scriptlib/$@ -I..
+	$(CXX) $(CFLAGS) $(INCLUDES) $< -o $(OBJ_HOME)/scriptlib/$@ -I..
 
 .PHONY: clean
 clean:

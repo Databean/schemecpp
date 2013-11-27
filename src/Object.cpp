@@ -86,7 +86,7 @@ namespace pscheme {
 	}
 	Object* ScriptFunction::call(Object* paramVals,Scope* _s /* unused - this is just for lambda */) {
 		Pair* p = parameters;
-		Object* v = paramVals;
+		//Object* v = paramVals;
 		Scope* s = new Scope(scope);
 		if(p->getLeft()==NULL) {
 			if(paramVals->getType()==TYPE_EMPTY_LIST) {

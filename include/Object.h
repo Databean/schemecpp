@@ -1,5 +1,5 @@
-#ifndef SCRIPT_OBJECT_H
-#define SCRIPT_OBJECT_H
+#ifndef PSCHEME_SCRIPT_OBJECT_H
+#define PSCHEME_SCRIPT_OBJECT_H
 
 #include <string>
 #include "Scope.h"
@@ -114,6 +114,24 @@ namespace pscheme {
 		
 		virtual Object* call(Object* params,Scope* s/* scope only used by macros */)=0;
 	};
+	
+	template<class Fn>
+	class CPPFunction : public Function {
+	private:
+		Fn& function;
+	public:
+		CPPFunction(Fn& function) : function(function) {}
+		~CPPFunction() {}
+		
+		virtual Object* call(Object* params, Scope* s /*scope only used by macros */) {
+			return function(params, s);
+		}
+	};
+	
+	template<class Fn>
+	Function* wrapFn(Fn& function) {
+		return new CPPFunction<Fn>(function);
+	}
 	
 	class Macro : public Function {
 	public:

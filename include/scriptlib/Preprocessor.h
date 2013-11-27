@@ -20,4 +20,22 @@ public: \
 }; \
 NAME(a) NAME2(b);
 
+#define schemeFn(fn) \
+class secretclass_##fn { \
+public: \
+	secretclass_##fn() { \
+		getRootScope()->defineValue(#fn,wrapFn(fn));\
+	} \
+}; \
+secretclass_##fn secretinstance_##fn;
+
+#define schemeNameFn(name, fn) \
+class secretclass_##fn { \
+public: \
+	secretclass_##fn() { \
+		getRootScope()->defineValue(name,wrapFn(fn));\
+	} \
+}; \
+secretclass_##fn secretinstance_##fn;
+
 #endif

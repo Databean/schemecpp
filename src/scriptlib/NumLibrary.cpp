@@ -5,137 +5,110 @@
 using namespace std;
 using namespace pscheme;
 
-class PlusFunction : public Function {
-public:
-	PlusFunction() {}
-	virtual ~PlusFunction() {}
-	virtual Object* call(Object* _params,Scope* _s) {
-		if(_params->getType()==TYPE_EMPTY_LIST) {
-			return new Number(0);
-		} else if(_params->getType() != TYPE_PAIR) {
-			throw "wtf...? parameters passed to function are not a pair";
-		}
-		Pair* params = reinterpret_cast<Pair*>(_params);
-		if(params->getLeft()->getType()!=TYPE_NUMBER) {
-			throw "left side of + is not a number";
-		}
-		Number* left = reinterpret_cast<Number*>(params->getLeft());
-		if(params->getRight()->getType()==TYPE_EMPTY_LIST) {
-			return left;
-		} else if(params->getRight()->getType()==TYPE_PAIR) {
-			Number* right = NULL;
-			right = reinterpret_cast<Number*>(call(reinterpret_cast<Pair*>(params->getRight()),_s));
-			return (*left)+right;
-		} else {
-			throw "right side of + not a list or empty pair";
-		}
-		return NULL;
+Object* schemePlus(Object* _params,Scope* _s) {
+	if(_params->getType()==TYPE_EMPTY_LIST) {
+		return new Number(0);
+	} else if(_params->getType() != TYPE_PAIR) {
+		throw "wtf...? parameters passed to function are not a pair";
 	}
-};
-run(getRootScope()->defineValue("+",new PlusFunction());)
+	Pair* params = reinterpret_cast<Pair*>(_params);
+	if(params->getLeft()->getType()!=TYPE_NUMBER) {
+		throw "left side of + is not a number";
+	}
+	Number* left = reinterpret_cast<Number*>(params->getLeft());
+	if(params->getRight()->getType()==TYPE_EMPTY_LIST) {
+		return left;
+	} else if(params->getRight()->getType()==TYPE_PAIR) {
+		Number* right = NULL;
+		right = reinterpret_cast<Number*>(schemePlus(reinterpret_cast<Pair*>(params->getRight()),_s));
+		return (*left)+right;
+	} else {
+		throw "right side of + not a list or empty pair";
+	}
+	return NULL;
+}
+schemeNameFn("+",schemePlus);
 
-class MinusFunction : public Function {
-public:
-	MinusFunction() {
-		plus = PlusFunction();
+Object* schemeMinus(Object* _params,Scope* _s) {
+	if(_params->getType()==TYPE_EMPTY_LIST) {
+		throw "minus requires at least one parameter";
+	} else if(_params->getType()!=TYPE_PAIR) {
+		throw "parameters passed to minus not a list...?";
 	}
-	virtual ~MinusFunction() { }
-	virtual Object* call(Object* _params,Scope* _s) {
-		if(_params->getType()==TYPE_EMPTY_LIST) {
-			throw "minus requires at least one parameter";
-		} else if(_params->getType()!=TYPE_PAIR) {
-			throw "parameters passed to minus not a list...?";
-		}
-		Pair* params = reinterpret_cast<Pair*>(_params);
-		if(params->getLeft()->getType()!=TYPE_NUMBER) {
-			throw "left side of - not a number";
-		}
-		Number* left = reinterpret_cast<Number*>(params->getLeft());
-		if(params->getRight()->getType()==TYPE_EMPTY_LIST) {
-			if(left->isExact()) {
-				mpq_class res = -1 * left->getExact();
-				return new Number(res);
-			} else {
-				mpf_class res = -1 * left->getInexact();
-				return new Number(res);
-			}
-		} else if(params->getRight()->getType()==TYPE_PAIR) {
-			Number* right = NULL;
-			right = reinterpret_cast<Number*>(plus.call(reinterpret_cast<Pair*>(params->getRight()),_s));
-			return (*left)-right;
+	Pair* params = reinterpret_cast<Pair*>(_params);
+	if(params->getLeft()->getType()!=TYPE_NUMBER) {
+		throw "left side of - not a number";
+	}
+	Number* left = reinterpret_cast<Number*>(params->getLeft());
+	if(params->getRight()->getType()==TYPE_EMPTY_LIST) {
+		if(left->isExact()) {
+			mpq_class res = -1 * left->getExact();
+			return new Number(res);
 		} else {
-			throw "right side of + not a list or empty pair";
+			mpf_class res = -1 * left->getInexact();
+			return new Number(res);
 		}
+	} else if(params->getRight()->getType()==TYPE_PAIR) {
+		Number* right = NULL;
+		right = reinterpret_cast<Number*>(schemePlus(reinterpret_cast<Pair*>(params->getRight()),_s));
+		return (*left)-right;
+	} else {
+		throw "right side of + not a list or empty pair";
 	}
-private:
-	PlusFunction plus;
-};
-run(getRootScope()->defineValue("-",new MinusFunction());)
+}
+schemeNameFn("-",schemeMinus);
 
-class MultiplyFunction : public Function {
-public:
-	MultiplyFunction() {}
-	virtual ~MultiplyFunction() {}
-	virtual Object* call(Object* _params, Scope* _s) {
-		if(_params->getType()==TYPE_EMPTY_LIST) {
-			return new Number(1);
-		} else if(_params->getType() != TYPE_PAIR) {
-			throw "wtf...? parameters passed to function are not a pair";
-		}
-		Pair* params = reinterpret_cast<Pair*>(_params);
-		if(params->getLeft()->getType()!=TYPE_NUMBER) {
-			throw "left side of * is not a number";
-		}
-		Number* left = reinterpret_cast<Number*>(params->getLeft());
-		if(params->getRight()->getType()==TYPE_EMPTY_LIST) {
-			return left;
-		} else if(params->getRight()->getType()==TYPE_PAIR) {
-			Number* right = NULL;
-			right = reinterpret_cast<Number*>(call(reinterpret_cast<Pair*>(params->getRight()),_s));
-			return (*left)*right;
-		} else {
-			throw "right side of * not a list or empty pair";
-		}
-		return NULL;
+Object* schemeMultiply(Object* _params, Scope* _s) {
+	if(_params->getType()==TYPE_EMPTY_LIST) {
+		return new Number(1);
+	} else if(_params->getType() != TYPE_PAIR) {
+		throw "wtf...? parameters passed to function are not a pair";
 	}
-};
-run(getRootScope()->defineValue("*",new MultiplyFunction());)
+	Pair* params = reinterpret_cast<Pair*>(_params);
+	if(params->getLeft()->getType()!=TYPE_NUMBER) {
+		throw "left side of * is not a number";
+	}
+	Number* left = reinterpret_cast<Number*>(params->getLeft());
+	if(params->getRight()->getType()==TYPE_EMPTY_LIST) {
+		return left;
+	} else if(params->getRight()->getType()==TYPE_PAIR) {
+		Number* right = NULL;
+		right = reinterpret_cast<Number*>(schemeMultiply(reinterpret_cast<Pair*>(params->getRight()),_s));
+		return (*left)*right;
+	} else {
+		throw "right side of * not a list or empty pair";
+	}
+	return NULL;
+}
+schemeNameFn("*", schemeMultiply);
 
-class DivideFunction : public Function {
-public:
-	DivideFunction() {
-		mult = MultiplyFunction();
+Object* schemeDivide(Object* _params,Scope* s) {
+	if(_params->getType()==TYPE_EMPTY_LIST) {
+		throw "/ requires at least one parameter";
+	} else if(_params->getType()!=TYPE_PAIR) {
+		throw "parameters passed to / not a list...?";
 	}
-	virtual ~DivideFunction() {}
-	virtual Object* call(Object* _params,Scope* s) {
-		if(_params->getType()==TYPE_EMPTY_LIST) {
-			throw "/ requires at least one parameter";
-		} else if(_params->getType()!=TYPE_PAIR) {
-			throw "parameters passed to / not a list...?";
-		}
-		Pair* params = reinterpret_cast<Pair*>(_params);
-		if(params->getLeft()->getType()!=TYPE_NUMBER) {
-			throw "left side of / not a number";
-		}
-		Number* left = reinterpret_cast<Number*>(params->getLeft());
-		if(params->getRight()->getType()==TYPE_EMPTY_LIST) {
-			if(left->isExact()) {
-				return new Number(mpq_class(1/left->getExact()));
-			} else {
-				return new Number(mpf_class(1/left->getInexact()));
-			}
-		} else if(params->getRight()->getType()==TYPE_PAIR) {
-			Object* _right = mult.call(params->getRight(),s);
-			if(_right->getType()!=TYPE_NUMBER) {
-				throw "* gave incorrect intermediate result";
-			}
-			Number* right = reinterpret_cast<Number*>(_right);
-			return (*left)/right;
+	Pair* params = reinterpret_cast<Pair*>(_params);
+	if(params->getLeft()->getType()!=TYPE_NUMBER) {
+		throw "left side of / not a number";
+	}
+	Number* left = reinterpret_cast<Number*>(params->getLeft());
+	if(params->getRight()->getType()==TYPE_EMPTY_LIST) {
+		if(left->isExact()) {
+			return new Number(mpq_class(1./left->getExact()));
 		} else {
-			throw "params to / not a proper list";
+			return new Number(mpf_class(1./left->getInexact()));
 		}
+	} else if(params->getRight()->getType()==TYPE_PAIR) {
+		Object* _right = schemeMultiply(params->getRight(),s);
+		if(_right->getType()!=TYPE_NUMBER) {
+			throw "* gave incorrect intermediate result";
+		}
+		Number* right = reinterpret_cast<Number*>(_right);
+		return (*left)/right;
+	} else {
+		throw "params to / not a proper list";
 	}
-private:
-	MultiplyFunction mult;
-};
-run(getRootScope()->defineValue("/",new DivideFunction());)
+}
+schemeNameFn("/",schemeDivide);
+

@@ -1,4 +1,4 @@
-CC := g++
+CXX := g++
 CFLAGS = -Wall -c -g
 SOURCES := $(wildcard *.cpp)
 HEADERS := $(wildcard $(INCL_HOME)/*.h)
@@ -16,10 +16,10 @@ y.tab.c: parser.y
 	bison -dvty parser.y
 
 %.o: %.cpp $(HEADERS)
-	g++ $(CFLAGS) $(INCLUDES) $< -o $(OBJ_HOME)/$@
+	$(CXX) $(CFLAGS) $(INCLUDES) $< -o $(OBJ_HOME)/$@
 
 %.o: %.c $(HEADERS)
-	g++ $(CFLAGS) $(INCLUDES) $< -o $(OBJ_HOME)/$@
+	$(CXX) $(CFLAGS) $(INCLUDES) $< -o $(OBJ_HOME)/$@
 
 .PHONY: clean
 clean:
