@@ -1,5 +1,5 @@
 CXX := g++
-CFLAGS = -Wall -c -g
+CFLAGS = -Wall -c -g -std=gnu++11
 SOURCES := $(wildcard *.cpp)
 HEADERS := $(wildcard $(INCL_HOME)/*.h)
 OBJECTS := $(addprefix $(OBJ_HOME)/,$(SOURCES:.cpp=.o) lex.yy.o y.tab.o)

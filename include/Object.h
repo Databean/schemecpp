@@ -35,6 +35,8 @@ namespace pscheme {
 		virtual Object* evaluate(Scope* s);
 		virtual Type getType() { return TYPE_PAIR; }
 		virtual std::string toString();
+		
+		//virtual Object* nth();
 	private:
 		Object* left;
 		Object* right;
@@ -114,24 +116,6 @@ namespace pscheme {
 		
 		virtual Object* call(Object* params,Scope* s/* scope only used by macros */)=0;
 	};
-	
-	template<class Fn>
-	class CPPFunction : public Function {
-	private:
-		Fn& function;
-	public:
-		CPPFunction(Fn& function) : function(function) {}
-		~CPPFunction() {}
-		
-		virtual Object* call(Object* params, Scope* s /*scope only used by macros */) {
-			return function(params, s);
-		}
-	};
-	
-	template<class Fn>
-	Function* wrapFn(Fn& function) {
-		return new CPPFunction<Fn>(function);
-	}
 	
 	class Macro : public Function {
 	public:

@@ -67,6 +67,18 @@ namespace pscheme {
 		s += ")";
 		return s;
 	}
+	/*
+	Object Pair::nth(int n) {
+		if(n == 0) {
+			return left;
+		} else {
+			if(right->getType() == TYPE_PAIR) {
+				return reinterpret_cast<Pair*>(right)->nth(n-1);
+			} else {
+				throw "error: list is not long enough for nth";
+			}
+		}
+	}*/
 	
 	Object* Identifier::evaluate(Scope* s) { 
 		Object* ret = s->getValue(name);

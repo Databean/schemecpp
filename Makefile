@@ -7,7 +7,7 @@ ALLCODE := $(shell find . -type f | grep -e "\(\.h\)\|\(\.cpp\)\|\(\.y\)\|\(\.l\
 
 $(EXECUTABLE): $(ALLCODE)
 	cd src && $(MAKE)
-	$(CXX) -Wall $(LIBS) obj/*.o obj/scriptlib/*.o -o $(EXECUTABLE)
+	$(CXX) -std=gnu++11 -Wall $(LIBS) obj/*.o obj/scriptlib/*.o -o $(EXECUTABLE)
 
 .PHONY: clean
 clean: 

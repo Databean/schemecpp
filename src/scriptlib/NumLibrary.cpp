@@ -27,7 +27,7 @@ Object* schemePlus(Object* _params,Scope* _s) {
 	}
 	return NULL;
 }
-schemeNameFn("+",schemePlus);
+schemeNameFnRaw("+",schemePlus);
 
 Object* schemeMinus(Object* _params,Scope* _s) {
 	if(_params->getType()==TYPE_EMPTY_LIST) {
@@ -56,7 +56,7 @@ Object* schemeMinus(Object* _params,Scope* _s) {
 		throw "right side of + not a list or empty pair";
 	}
 }
-schemeNameFn("-",schemeMinus);
+schemeNameFnRaw("-",schemeMinus);
 
 Object* schemeMultiply(Object* _params, Scope* _s) {
 	if(_params->getType()==TYPE_EMPTY_LIST) {
@@ -80,7 +80,7 @@ Object* schemeMultiply(Object* _params, Scope* _s) {
 	}
 	return NULL;
 }
-schemeNameFn("*", schemeMultiply);
+schemeNameFnRaw("*", schemeMultiply);
 
 Object* schemeDivide(Object* _params,Scope* s) {
 	if(_params->getType()==TYPE_EMPTY_LIST) {
@@ -110,5 +110,5 @@ Object* schemeDivide(Object* _params,Scope* s) {
 		throw "params to / not a proper list";
 	}
 }
-schemeNameFn("/",schemeDivide);
+schemeNameFnRaw("/",schemeDivide);
 

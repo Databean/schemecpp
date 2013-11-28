@@ -1,6 +1,8 @@
 #ifndef PREPROCESSOR_H
 #define PREPROCESSOR_H
 
+#include "CPPFunction.h"
+
 #define VARIABLE __LINE__
 #define PASTER(x,y) x ## _ ## y
 #define EVALUATOR(x,y)  PASTER(x,y)
@@ -20,20 +22,29 @@ public: \
 }; \
 NAME(a) NAME2(b);
 
-#define schemeFn(fn) \
+#define schemeFn(fn, ...) \
 class secretclass_##fn { \
 public: \
 	secretclass_##fn() { \
-		getRootScope()->defineValue(#fn,wrapFn(fn));\
+		getRootScope()->defineValue(#fn, pscheme::wrapFn< __VA_ARGS__ >(fn));\
 	} \
 }; \
 secretclass_##fn secretinstance_##fn;
 
-#define schemeNameFn(name, fn) \
+#define schemeNameFn(name, fn, ...) \
 class secretclass_##fn { \
 public: \
 	secretclass_##fn() { \
-		getRootScope()->defineValue(name,wrapFn(fn));\
+		getRootScope()->defineValue(name, pscheme::wrapFn< __VA_ARGS__ >(fn));\
+	} \
+}; \
+secretclass_##fn secretinstance_##fn;
+
+#define schemeNameFnRaw(name, fn) \
+class secretclass_##fn { \
+public: \
+	secretclass_##fn() { \
+		getRootScope()->defineValue(name, pscheme::wrapFnRaw(fn));\
 	} \
 }; \
 secretclass_##fn secretinstance_##fn;
