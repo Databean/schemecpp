@@ -33,10 +33,9 @@ public: \
 }; \
 run(getRootScope()->defineValue(#O,new NAME ());)
 
-using namespace std;
-using namespace pscheme;
-
-NUMERIC_COMPARISON_OPERATOR(LessThan,<)
-NUMERIC_COMPARISON_OPERATOR(GreaterThan,>)
-NUMERIC_COMPARISON_OPERATOR(LessThanOrEqualTo,<=)
-NUMERIC_COMPARISON_OPERATOR(GreaterThanOrEqualTo,>=)
+namespace pscheme {
+	NUMERIC_COMPARISON_OPERATOR(LessThan,<)
+	NUMERIC_COMPARISON_OPERATOR(GreaterThan,>)
+	NUMERIC_COMPARISON_OPERATOR(LessThanOrEqualTo,<=)
+	NUMERIC_COMPARISON_OPERATOR(GreaterThanOrEqualTo,>=)
+}

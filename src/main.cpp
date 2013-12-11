@@ -8,30 +8,41 @@
 int yyparse();
 int yylex();
 
-using namespace std;
-using namespace pscheme;
+using std::cout;
+using std::endl;
+using std::fstream;
+using std::stringbuf;
+using std::string;
+
+using pscheme::Pair;
+using pscheme::Object;
+using pscheme::Scope;
+using pscheme::getRootScope;
+
+using pscheme::TYPE_VOID;
+using pscheme::TYPE_PAIR;
 
 Pair* root;
 
 int main(int argc,char** args) {
-	std::string filename;
+	string filename;
 	if(argc > 1) {
 		filename = args[1];
 	} else {
-		std::cout << ">>parsing test.scm, no filename given" << std::endl;
+		cout << ">>parsing test.scm, no filename given" << endl;
 		filename = "test.scm";
 	}
 	
-	std::cout << ">>this is the file" << std::endl;
+	cout << ">>this is the file" << endl;
 	
-	std::fstream file(filename.c_str(), std::fstream::in);
-	std::stringbuf text;
+	fstream file(filename.c_str(), fstream::in);
+	stringbuf text;
 	file >> &text;
 	file.close();
 	
-	std::cout << text.str() << std::endl;
+	cout << text.str() << endl;
 	
-	std::cout << ">>running parser, lexer" << std::endl;
+	cout << ">>running parser, lexer" << endl;
 	
 	chooseStr(text.str().c_str());
 	
@@ -52,7 +63,7 @@ int main(int argc,char** args) {
 				break;
 			}
 		}
-	} catch(std::string s) {
+	} catch(string s) {
 		cout << s << endl;
 	} catch(const char* c) {
 		cout << c << endl;
@@ -61,5 +72,5 @@ int main(int argc,char** args) {
 	cleanBufferState();
 	
 	
-	std::cout << ">>done" <<std::endl;
+	cout << ">>done" <<endl;
 }

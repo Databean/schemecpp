@@ -2,11 +2,15 @@
 #include "Preprocessor.h"
 #include <iostream>
 
-using namespace pscheme;
-using namespace std;
+using std::cout;
+using std::endl;
 
-Object* display(Object* params) {
-	cout << params->toString() << endl;
-	return new Void();
-};
-schemeFn(display);
+namespace pscheme {
+	
+	Object* display(Object* params) {
+		cout << params->toString() << endl;
+		return new Void();
+	};
+	schemeFn(display);
+	
+}

@@ -1,6 +1,6 @@
 #include "Scope.h"
 
-using namespace std;
+using std::string;
 
 namespace pscheme {
 	

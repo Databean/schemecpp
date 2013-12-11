@@ -1,7 +1,7 @@
 #include "Object.h"
 #include <iostream>
 
-using namespace std;
+using std::string;
 
 namespace pscheme {
 	
