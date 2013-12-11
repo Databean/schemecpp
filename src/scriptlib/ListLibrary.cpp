@@ -5,7 +5,6 @@
 
 #include <iostream>
 
-using namespace std;
 using namespace pscheme;
 
 /**
@@ -39,3 +38,17 @@ Object* cdr(Pair* pair) {
 	return pair->getRight();
 }
 schemeFn(cdr, Pair*);
+
+Object* map(Function* func, Object* toMap) {
+	if(func->getType() == TYPE_MACRO) {
+		throw "Can't use map on macros";
+	}
+	if(dynamic_cast<EmptyList*>(toMap)) {
+		return new EmptyList();
+	} else if(dynamic_cast<Pair*>(toMap)) {
+		Pair* pair = reinterpret_cast<Pair*>(toMap);
+		return new Pair(func->call(new Pair(pair->getLeft(), new EmptyList()), NULL), map(func, pair->getRight()));
+	}
+	throw "map must be called on a proper list";
+}
+schemeFn(map, Function*, Object*)

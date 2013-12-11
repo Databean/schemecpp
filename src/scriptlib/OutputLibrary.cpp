@@ -5,7 +5,7 @@
 using namespace pscheme;
 using namespace std;
 
-Object* display(Object* params,Scope* s) {
+Object* display(Object* params) {
 	cout << params->toString() << endl;
 	return new Void();
 };
