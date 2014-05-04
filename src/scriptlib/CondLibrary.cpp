@@ -18,19 +18,19 @@ namespace pscheme {
 			if(_params->getType()!=TYPE_PAIR) {
 				throw "if requires arguments";
 			}
-			Pair* params = reinterpret_cast<Pair*>(_params);
+			Pair* params = static_cast<Pair*>(_params);
 			Object* condition = params->getLeft();
 			Object* _thenGroup = params->getRight();
 			if(_thenGroup->getType()!=TYPE_PAIR) {
 				throw "if requires to be passed 3 parameters";
 			}
-			Pair* thenGroup = reinterpret_cast<Pair*>(_thenGroup);
+			Pair* thenGroup = static_cast<Pair*>(_thenGroup);
 			Object* then = thenGroup->getLeft();
 			Object* _elseGroup = thenGroup->getRight();
 			if(_elseGroup->getType()!=TYPE_PAIR) {
 				throw "if requires to be passed a proper list";
 			}
-			Pair* elseGroup = reinterpret_cast<Pair*>(_elseGroup);
+			Pair* elseGroup = static_cast<Pair*>(_elseGroup);
 			Object* els = elseGroup->getLeft();
 			if(elseGroup->getRight()->getType()!=TYPE_EMPTY_LIST) {
 				throw "if requires to be passed a proper list of 3 parameters";
@@ -39,7 +39,7 @@ namespace pscheme {
 			if(_conditionResult->getType()!=TYPE_BOOL) {
 				throw "if condition return type has to be a bool";
 			}
-			Bool* conditionResult = reinterpret_cast<Bool*>(_conditionResult);
+			Bool* conditionResult = static_cast<Bool*>(_conditionResult);
 			if(conditionResult->getValue()) {
 				return then->evaluate(s);
 			} else {

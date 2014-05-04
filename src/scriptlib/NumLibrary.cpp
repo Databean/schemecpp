@@ -10,16 +10,16 @@ namespace pscheme {
 		} else if(_params->getType() != TYPE_PAIR) {
 			throw "wtf...? parameters passed to function are not a pair";
 		}
-		Pair* params = reinterpret_cast<Pair*>(_params);
+		Pair* params = static_cast<Pair*>(_params);
 		if(params->getLeft()->getType()!=TYPE_NUMBER) {
 			throw "left side of + is not a number";
 		}
-		Number* left = reinterpret_cast<Number*>(params->getLeft());
+		Number* left = static_cast<Number*>(params->getLeft());
 		if(params->getRight()->getType()==TYPE_EMPTY_LIST) {
 			return left;
 		} else if(params->getRight()->getType()==TYPE_PAIR) {
 			Number* right = NULL;
-			right = reinterpret_cast<Number*>(schemePlus(reinterpret_cast<Pair*>(params->getRight()),_s));
+			right = static_cast<Number*>(schemePlus(reinterpret_cast<Pair*>(params->getRight()),_s));
 			return (*left)+right;
 		} else {
 			throw "right side of + not a list or empty pair";
@@ -34,11 +34,11 @@ namespace pscheme {
 		} else if(_params->getType()!=TYPE_PAIR) {
 			throw "parameters passed to minus not a list...?";
 		}
-		Pair* params = reinterpret_cast<Pair*>(_params);
+		Pair* params = static_cast<Pair*>(_params);
 		if(params->getLeft()->getType()!=TYPE_NUMBER) {
 			throw "left side of - not a number";
 		}
-		Number* left = reinterpret_cast<Number*>(params->getLeft());
+		Number* left = static_cast<Number*>(params->getLeft());
 		if(params->getRight()->getType()==TYPE_EMPTY_LIST) {
 			if(left->isExact()) {
 				mpq_class res = -1 * left->getExact();
@@ -49,7 +49,7 @@ namespace pscheme {
 			}
 		} else if(params->getRight()->getType()==TYPE_PAIR) {
 			Number* right = NULL;
-			right = reinterpret_cast<Number*>(schemePlus(reinterpret_cast<Pair*>(params->getRight()),_s));
+			right = static_cast<Number*>(schemePlus(reinterpret_cast<Pair*>(params->getRight()),_s));
 			return (*left)-right;
 		} else {
 			throw "right side of + not a list or empty pair";
@@ -63,16 +63,16 @@ namespace pscheme {
 		} else if(_params->getType() != TYPE_PAIR) {
 			throw "wtf...? parameters passed to function are not a pair";
 		}
-		Pair* params = reinterpret_cast<Pair*>(_params);
+		Pair* params = static_cast<Pair*>(_params);
 		if(params->getLeft()->getType()!=TYPE_NUMBER) {
 			throw "left side of * is not a number";
 		}
-		Number* left = reinterpret_cast<Number*>(params->getLeft());
+		Number* left = static_cast<Number*>(params->getLeft());
 		if(params->getRight()->getType()==TYPE_EMPTY_LIST) {
 			return left;
 		} else if(params->getRight()->getType()==TYPE_PAIR) {
 			Number* right = NULL;
-			right = reinterpret_cast<Number*>(schemeMultiply(reinterpret_cast<Pair*>(params->getRight()),_s));
+			right = static_cast<Number*>(schemeMultiply(reinterpret_cast<Pair*>(params->getRight()),_s));
 			return (*left)*right;
 		} else {
 			throw "right side of * not a list or empty pair";
@@ -87,11 +87,11 @@ namespace pscheme {
 		} else if(_params->getType()!=TYPE_PAIR) {
 			throw "parameters passed to / not a list...?";
 		}
-		Pair* params = reinterpret_cast<Pair*>(_params);
+		Pair* params = static_cast<Pair*>(_params);
 		if(params->getLeft()->getType()!=TYPE_NUMBER) {
 			throw "left side of / not a number";
 		}
-		Number* left = reinterpret_cast<Number*>(params->getLeft());
+		Number* left = static_cast<Number*>(params->getLeft());
 		if(params->getRight()->getType()==TYPE_EMPTY_LIST) {
 			if(left->isExact()) {
 				return new Number(mpq_class(1./left->getExact()));
@@ -103,7 +103,7 @@ namespace pscheme {
 			if(_right->getType()!=TYPE_NUMBER) {
 				throw "* gave incorrect intermediate result";
 			}
-			Number* right = reinterpret_cast<Number*>(_right);
+			Number* right = static_cast<Number*>(_right);
 			return (*left)/right;
 		} else {
 			throw "params to / not a proper list";

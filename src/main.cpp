@@ -58,7 +58,7 @@ int main(int argc,char** args) {
 				cout << ret->toString() << endl;
 			} 
 			if(p->getRight()->getType()==TYPE_PAIR) {
-				p = reinterpret_cast<Pair*>(p->getRight());
+				p = static_cast<Pair*>(p->getRight());
 			} else {
 				break;
 			}

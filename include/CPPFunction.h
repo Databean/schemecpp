@@ -44,10 +44,10 @@ namespace pscheme {
 		if(input->getType() == TYPE_EMPTY_LIST) {
 			throw "error: not enough items in this list for the function.";
 		} else if(input->getType() == TYPE_PAIR) {
-			Pair* pair = reinterpret_cast<Pair*>(input);
+			Pair* pair = static_cast<Pair*>(input);
 			if(pair->getRight()->getType() == TYPE_EMPTY_LIST) {
 				if(dynamic_cast<T>(pair->getLeft())) {
-					return std::make_tuple(reinterpret_cast<T>(pair->getLeft()));
+					return std::make_tuple(static_cast<T>(pair->getLeft()));
 				} else {
 					throw "error: invalid type";
 				}
@@ -69,9 +69,9 @@ namespace pscheme {
 		if(input->getType() == TYPE_EMPTY_LIST) {
 			throw "error: not enough items in this list for the function.";
 		} else if(input->getType() == TYPE_PAIR) {
-			Pair* pair = reinterpret_cast<Pair*>(input);
+			Pair* pair = static_cast<Pair*>(input);
 			if(dynamic_cast<T>(pair->getLeft())) {
-				return std::tuple_cat(std::make_tuple(reinterpret_cast<T>(pair->getLeft())), parametersToTuple<S, Args...>(pair->getRight()));
+				return std::tuple_cat(std::make_tuple(static_cast<T>(pair->getLeft())), parametersToTuple<S, Args...>(pair->getRight()));
 			} else {
 				throw "error: invalid type";
 			}

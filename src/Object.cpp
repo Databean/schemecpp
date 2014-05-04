@@ -19,10 +19,10 @@ namespace pscheme {
 		}
 		Object* leval = left->evaluate(s);
 		if(leval->getType()==TYPE_FUNCTION||leval->getType()==TYPE_MACRO) {
-			Function* f = reinterpret_cast<Function*>(leval);
+			Function* f = static_cast<Function*>(leval);
 			if(right->getType()==TYPE_PAIR) {
 				if(f->getType()==TYPE_FUNCTION) {
-					return f->call(reinterpret_cast<Pair*>(right)->getEvaluated(s),s);
+					return f->call(static_cast<Pair*>(right)->getEvaluated(s),s);
 				} else {
 					return f->call(right,s);
 				}
@@ -40,7 +40,7 @@ namespace pscheme {
 		Object* newLeft = left->evaluate(s);
 		Object* newRight;
 		if(right->getType()==TYPE_PAIR) {
-			newRight = reinterpret_cast<Pair*>(right)->getEvaluated(s);
+			newRight = static_cast<Pair*>(right)->getEvaluated(s);
 		} else {
 			newRight = right->evaluate(s);
 		}
@@ -51,7 +51,7 @@ namespace pscheme {
 		Object* r = this;
 		while(true) {
 			if(r->getType()==TYPE_PAIR) {
-				Pair* rl = reinterpret_cast<Pair*>(r);
+				Pair* rl = static_cast<Pair*>(r);
 				s += rl->getLeft()->toString();
 				if(rl->getRight()->getType()!=TYPE_EMPTY_LIST) {
 					s += " ";
@@ -73,7 +73,7 @@ namespace pscheme {
 			return left;
 		} else {
 			if(right->getType() == TYPE_PAIR) {
-				return reinterpret_cast<Pair*>(right)->nth(n-1);
+				return static_cast<Pair*>(right)->nth(n-1);
 			} else {
 				throw "error: list is not long enough for nth";
 			}
@@ -110,12 +110,12 @@ namespace pscheme {
 		if(paramVals->getType()==TYPE_EMPTY_LIST) {
 			throw "function expects more than 0 parameters";
 		}
-		Pair* paramPair = reinterpret_cast<Pair*>(paramVals);
+		Pair* paramPair = static_cast<Pair*>(paramVals);
 		while(true) {
 			if(p->getLeft()->getType()!=TYPE_IDENTIFIER) {
 				throw "non identifier in func param list";
 			}
-			Identifier* i = reinterpret_cast<Identifier*>(p->getLeft());
+			Identifier* i = static_cast<Identifier*>(p->getLeft());
 			s->defineValue(i->getName(),paramPair->getLeft());
 			switch(p->getRight()->getType()) {
 				case TYPE_EMPTY_LIST:
@@ -126,15 +126,15 @@ namespace pscheme {
 					}
 					break;
 				case TYPE_IDENTIFIER: //dump the rest of the params in here, it's a varargs funcction
-					s->defineValue(reinterpret_cast<Identifier*>(p->getRight())->getName(),paramPair->getRight());
+					s->defineValue(static_cast<Identifier*>(p->getRight())->getName(),paramPair->getRight());
 					return run(s);
 					break;
 				case TYPE_PAIR:
 					if(paramPair->getRight()->getType()!=TYPE_PAIR) {
 						throw "function expected more parameters";
 					} else {
-						paramPair = reinterpret_cast<Pair*>(paramPair->getRight());
-						p = reinterpret_cast<Pair*>(p->getRight());
+						paramPair = static_cast<Pair*>(paramPair->getRight());
+						p = static_cast<Pair*>(p->getRight());
 					}
 					break;
 				default:
@@ -151,7 +151,7 @@ namespace pscheme {
 					return tempVal;
 					break;
 				case TYPE_PAIR:
-					p = reinterpret_cast<Pair*>(p->getRight());
+					p = static_cast<Pair*>(p->getRight());
 					break;
 				default:
 					throw "unexpected value in expression list";

@@ -46,7 +46,7 @@ namespace pscheme {
 		if(dynamic_cast<EmptyList*>(toMap)) {
 			return new EmptyList();
 		} else if(dynamic_cast<Pair*>(toMap)) {
-			Pair* pair = reinterpret_cast<Pair*>(toMap);
+			Pair* pair = static_cast<Pair*>(toMap);
 			return new Pair(func->call(new Pair(pair->getLeft(), new EmptyList()), NULL), map(func, pair->getRight()));
 		}
 		throw "map must be called on a proper list";

@@ -14,15 +14,15 @@ namespace pscheme {
 			if(_params->getType()!=TYPE_PAIR) {
 				throw "lambda requires arguments";
 			}
-			Pair* params = reinterpret_cast<Pair*>(_params);
+			Pair* params = static_cast<Pair*>(_params);
 			if(params->getLeft()->getType()!=TYPE_PAIR) {
 				throw "lambda expects an identifier list as its first argument";
 			}
-			Pair* funcArguments = reinterpret_cast<Pair*>(params->getLeft());
+			Pair* funcArguments = static_cast<Pair*>(params->getLeft());
 			if(params->getRight()->getType()!=TYPE_PAIR) {
 				throw "lambda expects a list of commands to run";
 			}
-			Pair* funcCommands = reinterpret_cast<Pair*>(params->getRight());
+			Pair* funcCommands = static_cast<Pair*>(params->getRight());
 			return new ScriptFunction(funcArguments,funcCommands,s);
 		}
 	};
@@ -36,34 +36,34 @@ namespace pscheme {
 			if(_params->getType()!=TYPE_PAIR) {
 				throw "lambda requires arguments";
 			} 
-			Pair* params = reinterpret_cast<Pair*>(_params);
+			Pair* params = static_cast<Pair*>(_params);
 			if(params->getLeft()->getType()==TYPE_PAIR) {
-				Pair* funcInfo = reinterpret_cast<Pair*>(params->getLeft());
+				Pair* funcInfo = static_cast<Pair*>(params->getLeft());
 				if(funcInfo->getLeft()->getType()!=TYPE_IDENTIFIER) {
 					throw "func define expects func name identifier in first group";
 				}
-				Identifier* nameObj = reinterpret_cast<Identifier*>(funcInfo->getLeft());
+				Identifier* nameObj = static_cast<Identifier*>(funcInfo->getLeft());
 				string name = nameObj->getName();
 				Pair* r = NULL;
 				if(funcInfo->getRight()->getType()==TYPE_EMPTY_LIST) {
 					r = new Pair(NULL,new EmptyList());
 				} else if(funcInfo->getRight()->getType()==TYPE_PAIR) {
-					r = reinterpret_cast<Pair*>(funcInfo->getRight());
+					r = static_cast<Pair*>(funcInfo->getRight());
 				} else {
 					throw "right side of define function params should be list";
 				}
 				if(params->getRight()->getType()!=TYPE_PAIR) {
 					throw "right side of define should be a list of commands";
 				}
-				ScriptFunction* ret = new ScriptFunction(r,reinterpret_cast<Pair*>(params->getRight()),s);
+				ScriptFunction* ret = new ScriptFunction(r,static_cast<Pair*>(params->getRight()),s);
 				s->defineValue(name,ret);
 				return new Void();
 			} else if(params->getLeft()->getType()==TYPE_IDENTIFIER) {
-				Identifier* id = reinterpret_cast<Identifier*>(params->getLeft());
+				Identifier* id = static_cast<Identifier*>(params->getLeft());
 				if(params->getRight()->getType()!=TYPE_PAIR) {
 					throw "define expected more parameters";
 				}
-				Pair* right = reinterpret_cast<Pair*>(params->getRight());
+				Pair* right = static_cast<Pair*>(params->getRight());
 				if(right->getRight()->getType()!=TYPE_EMPTY_LIST) {
 					throw "define received too many parameters";
 				}
@@ -83,15 +83,15 @@ namespace pscheme {
 			if(_params->getType()!=TYPE_PAIR) {
 				throw "lambda requires arguments";
 			}
-			Pair* params = reinterpret_cast<Pair*>(_params);
+			Pair* params = static_cast<Pair*>(_params);
 			if(params->getLeft()->getType()!=TYPE_IDENTIFIER) {
 				throw "error: set! first parameter should be an identifier";
 			}
-			Identifier* id = reinterpret_cast<Identifier*>(params->getLeft());
+			Identifier* id = static_cast<Identifier*>(params->getLeft());
 			if(params->getRight()->getType()!=TYPE_PAIR) {
 				throw "error: set! needs more than one parameter";
 			}
-			Pair* right = reinterpret_cast<Pair*>(params->getRight());
+			Pair* right = static_cast<Pair*>(params->getRight());
 			if(right->getRight()->getType()!=TYPE_EMPTY_LIST) {
 				throw "set! received too many parameters";
 			}
