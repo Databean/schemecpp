@@ -11,6 +11,7 @@ namespace pscheme {
 	
 	class Scope {
 	public:
+		Scope(Scope& parent);
 		Scope(Scope* parent);
 		virtual ~Scope();
 		

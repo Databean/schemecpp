@@ -44,9 +44,9 @@ namespace pscheme {
 				}
 				Identifier* nameObj = static_cast<Identifier*>(funcInfo->getLeft());
 				string name = nameObj->getName();
-				Pair* r = NULL;
+				Pair* r = nullptr;
 				if(funcInfo->getRight()->getType()==TYPE_EMPTY_LIST) {
-					r = new Pair(NULL,new EmptyList());
+					r = new Pair(nullptr,new EmptyList());
 				} else if(funcInfo->getRight()->getType()==TYPE_PAIR) {
 					r = static_cast<Pair*>(funcInfo->getRight());
 				} else {

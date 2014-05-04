@@ -20,14 +20,14 @@ namespace pscheme {
 	Object* Scope::getValue(string name) {
 		if(!(variables.count(name))) {
 			if(parent) { return parent->getValue(name); }
-			else { return NULL; }
+			else { return nullptr; }
 		} else {
 			return variables[name];
 		}
 	}
 	
 	Scope* getRootScope() {
-		static Scope* r = new Scope(NULL);
+		static Scope* r = new Scope(nullptr);
 		return r;
 	}
 	

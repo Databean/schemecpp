@@ -22,13 +22,13 @@ public: \
 		if(params->getRight()->getType()==TYPE_EMPTY_LIST) { \
 			throw "expects two parameters"; \
 		} else if(params->getRight()->getType()==TYPE_PAIR) { \
-			Number* right = NULL; \
+			Number* right = nullptr; \
 			right = static_cast<Number*>(reinterpret_cast<Pair*>(params->getRight())->getLeft()); \
 			return (*left) O right; \
 		} else { \
 			throw "right side not a list or empty pair"; \
 		} \
-		return NULL; \
+		return nullptr; \
 	} \
 }; \
 run(getRootScope()->defineValue(#O,new NAME ());)

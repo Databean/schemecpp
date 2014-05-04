@@ -44,7 +44,7 @@ ExpressionList		:	Expression ExpressionList	{ $$ = new pscheme::Pair($1,$2); }
 
 Expression			:	QuoteExpression				{ $$ = $1; }
 					|	'(' ExpressionList ')'		{ $$ = $2; }
-					|	'(' ')'						{ $$ = new pscheme::Pair(NULL,new pscheme::EmptyList()); }
+					|	'(' ')'						{ $$ = new pscheme::Pair(nullptr,new pscheme::EmptyList()); }
 					|	T_Identifier				{ $$ = new pscheme::Identifier($1); }
 					|	T_Integer					{ $$ = new pscheme::Number($1); }
 					|	T_Bool						{ $$ = new pscheme::Bool($1); }

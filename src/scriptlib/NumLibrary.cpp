@@ -18,13 +18,13 @@ namespace pscheme {
 		if(params->getRight()->getType()==TYPE_EMPTY_LIST) {
 			return left;
 		} else if(params->getRight()->getType()==TYPE_PAIR) {
-			Number* right = NULL;
+			Number* right = nullptr;
 			right = static_cast<Number*>(schemePlus(reinterpret_cast<Pair*>(params->getRight()),_s));
 			return (*left)+right;
 		} else {
 			throw "right side of + not a list or empty pair";
 		}
-		return NULL;
+		return nullptr;
 	}
 	schemeNameFnRaw("+",schemePlus);
 
@@ -48,7 +48,7 @@ namespace pscheme {
 				return new Number(res);
 			}
 		} else if(params->getRight()->getType()==TYPE_PAIR) {
-			Number* right = NULL;
+			Number* right = nullptr;
 			right = static_cast<Number*>(schemePlus(reinterpret_cast<Pair*>(params->getRight()),_s));
 			return (*left)-right;
 		} else {
@@ -71,13 +71,13 @@ namespace pscheme {
 		if(params->getRight()->getType()==TYPE_EMPTY_LIST) {
 			return left;
 		} else if(params->getRight()->getType()==TYPE_PAIR) {
-			Number* right = NULL;
+			Number* right = nullptr;
 			right = static_cast<Number*>(schemeMultiply(reinterpret_cast<Pair*>(params->getRight()),_s));
 			return (*left)*right;
 		} else {
 			throw "right side of * not a list or empty pair";
 		}
-		return NULL;
+		return nullptr;
 	}
 	schemeNameFnRaw("*", schemeMultiply);
 

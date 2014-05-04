@@ -14,7 +14,7 @@ namespace pscheme {
 		delete right;
 	}
 	Object* Pair::evaluate(Scope* s) {
-		if(left==NULL) {
+		if(left==nullptr) {
 			throw "attempting to call empty pair";
 		}
 		Object* leval = left->evaluate(s);
@@ -100,7 +100,7 @@ namespace pscheme {
 		Pair* p = parameters;
 		//Object* v = paramVals;
 		Scope* s = new Scope(scope);
-		if(p->getLeft()==NULL) {
+		if(p->getLeft()==nullptr) {
 			if(paramVals->getType()==TYPE_EMPTY_LIST) {
 				return run(s);
 			} else {
